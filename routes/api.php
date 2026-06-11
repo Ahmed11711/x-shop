@@ -19,6 +19,7 @@ Route::prefix('v1/admin/')->middleware(ResolveTenant::class)->group(function () 
 
 
 
+
 Route::prefix('payments')->group(function () {
     Route::get('gateways', [PaymentController::class, 'gateways']);
     Route::post('charge',   [PaymentController::class, 'charge']);

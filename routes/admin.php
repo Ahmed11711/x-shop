@@ -8,11 +8,11 @@ use App\Http\Controllers\Admin\Package\PackageController;
 use App\Http\Controllers\Admin\User\UserController;
 
 Route::prefix('v1')->group(function () {
-    Route::apiResource('users', UserController::class)->names('user');
+    // Route::apiResource('users', UserController::class)->names('user');
 
-    Route::apiResource('packages', PackageController::class)->names('package');
-    Route::apiResource('feature_packages', FeaturePackageController::class)
-        ->names('feature_package')
-        ->middleware('sync.feature.package');
-    Route::apiResource('user_packages', UserPackageController::class)->names('user_package');
+    // Route::apiResource('packages', PackageController::class)->names('package');
+    // Route::apiResource('feature_packages', FeaturePackageController::class)
+    //     ->names('feature_package')
+    //     ->middleware('sync.feature.package');
+    // Route::apiResource('user_packages', UserPackageController::class)->names('user_package');
 });
