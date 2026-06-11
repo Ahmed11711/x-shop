@@ -1,0 +1,120 @@
+<?php
+
+namespace App\Services\Payment;
+
+use App\Models\Central\User;
+use App\Repositories\Package\PackageRepositoryInterface;
+use App\Repositories\UserPackage\UserPackageRepositoryInterface;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
+use RuntimeException;
+
+class CreateLinkKashierPaymentService
+{
+    public function __construct(
+        private KashierPaymentService $kashierPaymentService,
+        private PackageRepositoryInterface $packageRepository,
+        private UserPackageRepositoryInterface $userPackageRepository,
+    ) {}
+
+    public function createSession(array $data, Request $request): string
+    {
+        return DB::transaction(function () use ($data, $request) {
+
+            $user = $this->resolveUser($data);
+
+            $package = $this->packageRepository->find($data['package_id']);
+
+            if (!$package) {
+                throw new RuntimeException('Package not found.');
+            }
+
+            $transactionId = (string) Str::uuid();
+
+            $contact = $user->email ?? $user->phone;
+
+            $paymentLink = $this->kashierPaymentService->createSession(
+                amount: (string) $package->price,
+                customerContact: $contact,
+                transactionId: $transactionId,
+                baseUrl: $this->resolveBaseUrl($request),
+
+            );
+
+            if (!$paymentLink) {
+                throw new RuntimeException('Failed to create payment session.');
+            }
+
+            $this->userPackageRepository->create([
+                'user_id'        => $user->id,
+                'package_id'     => $package->id,
+                'transaction_id' => $transactionId,
+                'price'          => $package->price,
+                'status'         => 'pending',
+                'package_name'   => $package->name,
+            ]);
+
+            return $paymentLink;
+        });
+    }
+
+    /**
+     * Resolve user by email or phone
+     */
+    private function resolveUser(array $data)
+    {
+        $userModel = (new User)->setConnection(config('database.default'));
+
+        if (!empty($data['email'])) {
+            $user = $userModel->where('email', $data['email'])->first();
+            if ($user) return $user;
+        }
+
+        if (!empty($data['phone'])) {
+            $user = $userModel->where('phone', $data['phone'])->first();
+            if ($user) return $user;
+        }
+
+        throw new \RuntimeException('User not found.');
+    }
+    public function updateSubscriptionStatus(string $transactionId, string $status): void
+    {
+        $userPackage = $this->userPackageRepository->findBYKey('transaction_id', $transactionId);
+
+        if (!$userPackage) {
+            throw new \RuntimeException('Subscription not found for transaction ID: ' . $transactionId);
+        }
+
+        $package = $this->packageRepository->find($userPackage->package_id);
+
+        if (!$package) {
+            throw new \RuntimeException('Package not found for this subscription.');
+        }
+
+        DB::transaction(function () use ($userPackage, $package, $status) {
+
+            if (strtoupper($status) === 'SUCCESS') {
+
+                $this->userPackageRepository->query()
+                    ->where('user_id', $userPackage->user_id)
+                    ->where('id', '<>', $userPackage->id)
+                    ->where('status', 'active')
+                    ->update(['status' => 'cancelled']);
+
+                $userPackage->update([
+                    'status' => 'active',
+                    'start_date' => now(),
+                    'end_date' => now()->addDays($package->duration_months * 30)
+                ]);
+            } else {
+                $userPackage->update(['status' => 'failed']);
+            }
+        });
+    }
+    private function resolveBaseUrl(Request $request): string
+    {
+        return $request->getScheme() . '://' . $request->getHost();
+    }
+}
