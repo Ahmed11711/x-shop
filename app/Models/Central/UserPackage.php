@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class UserPackage extends Model
 {
-    //
+    protected $connection = 'xshop_central';
     protected static function boot()
     {
         parent::boot();

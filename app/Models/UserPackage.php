@@ -2,11 +2,12 @@
 
 namespace App\Models;
 
+use App\Models\Central\Package;
 use Illuminate\Database\Eloquent\Model;
 
 class UserPackage extends Model
 {
-    //
+
 
     public function user()
     {
@@ -18,11 +19,4 @@ class UserPackage extends Model
     {
         return $this->belongsTo(Package::class, 'package_id');
     }
-
-
-    public function transaction()
-    {
-        return $this->belongsTo(Transaction::class, 'transaction_id');
-    }
-
 }
