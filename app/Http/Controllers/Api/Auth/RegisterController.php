@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Central\Auth\RegisterRequest;
 use App\Repositories\User\UserRepository;
 use App\Services\TenantService\CreateErpTenantService;
-use Illuminate\Http\Request;
 
 class RegisterController extends Controller
 {

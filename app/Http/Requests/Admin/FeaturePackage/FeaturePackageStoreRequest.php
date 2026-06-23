@@ -18,6 +18,8 @@ class FeaturePackageStoreRequest extends BaseRequest
             'feature_id' => 'required|integer|exists:features,id',
             'value' => 'required|string|max:255',
             'lable' => 'required|string|max:255',
+            'is_enabled' => 'nullable|sometimes|boolean',
+
         ];
     }
 }

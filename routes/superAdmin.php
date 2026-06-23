@@ -7,7 +7,7 @@ use App\Http\Controllers\Admin\Package\PackageController;
 use App\Http\Controllers\Admin\User\UserController;
 
 Route::prefix('v1/super_admin')->group(function () {
-    Route::apiResource('users', UserController::class)->names('user');
+    // Route::apiResource('users', UserController::class);
 
     Route::apiResource('packages', PackageController::class)->names('package');
     Route::apiResource('feature_packages', FeaturePackageController::class)

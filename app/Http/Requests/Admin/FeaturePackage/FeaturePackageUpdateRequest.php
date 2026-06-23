@@ -18,6 +18,7 @@ class FeaturePackageUpdateRequest extends BaseRequest
             'feature_id' => 'sometimes|required|integer|exists:features,id',
             'value' => 'nullable|sometimes|string|max:255',
             'lable' => 'nullable|sometimes|string|max:255',
+            'is_enabled' => 'nullable|sometimes|boolean',
         ];
     }
 }

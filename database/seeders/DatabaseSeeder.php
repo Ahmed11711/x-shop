@@ -20,6 +20,9 @@ class DatabaseSeeder extends Seeder
         $this->call([
             SuperAdminSeeder::class,
             FeaturePackageSeeder::class,
+            RolesSeeder::class,
+            PermissionGroupsSeeder::class,
+            PermissionsSeeder::class,
         ]);
     }
 }

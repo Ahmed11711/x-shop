@@ -75,6 +75,7 @@ class SyncFeaturePackageAfterResponse
                     $fp->feature->key => [
                         'total_limit' => $fp->value,
                         'type'        => $fp->key_feature ?? 'numeric',
+                        'is_enabled'  => $fp->is_enabled ?? true,
                     ]
                 ];
             });
@@ -92,10 +93,18 @@ class SyncFeaturePackageAfterResponse
 
                 Log::info('Sync started for tenant', ['tenant_id' => $tenant->id]);
 
-                $this->connectToTenant($tenant);
-                $this->syncTenantFeatures($featuresMap, $currentKeys);
-
-                Log::info('Sync completed for tenant', ['tenant_id' => $tenant->id]);
+                try {
+                    $this->connectToTenant($tenant);
+                    $this->syncTenantFeatures($featuresMap, $currentKeys);
+                    Log::info('Sync completed for tenant', ['tenant_id' => $tenant->id]);
+                } catch (Throwable $e) {
+                    Log::error('Sync failed for tenant, skipping', [
+                        'tenant_id' => $tenant->id,
+                        'message'   => $e->getMessage(),
+                        'line'      => $e->getLine(),
+                        'file'      => $e->getFile(),
+                    ]);
+                }
             }
 
             Log::info('Feature package sync completed successfully');
@@ -135,14 +144,23 @@ class SyncFeaturePackageAfterResponse
 
             Log::info('DELETE sync started for tenant', ['tenant_id' => $tenant->id]);
 
-            $this->connectToTenant($tenant);
+            try {
+                $this->connectToTenant($tenant);
 
-            DB::connection('tenant')
-                ->table('tenant_feature_usages')
-                ->where('feature_slug', $deletedFeatureKey)
-                ->delete();
+                DB::connection('tenant')
+                    ->table('tenant_feature_usages')
+                    ->where('feature_slug', $deletedFeatureKey)
+                    ->delete();
 
-            Log::info('DELETE sync completed for tenant', ['tenant_id' => $tenant->id]);
+                Log::info('DELETE sync completed for tenant', ['tenant_id' => $tenant->id]);
+            } catch (Throwable $e) {
+                Log::error('DELETE sync failed for tenant, skipping', [
+                    'tenant_id' => $tenant->id,
+                    'message'   => $e->getMessage(),
+                    'line'      => $e->getLine(),
+                    'file'      => $e->getFile(),
+                ]);
+            }
         }
 
         Log::info('Feature package delete sync completed successfully');
@@ -179,6 +197,7 @@ class SyncFeaturePackageAfterResponse
                     ->update([
                         'total_limit' => $data['total_limit'],
                         'type'        => $data['type'],
+                        'is_enabled'  => $data['is_enabled'],
                         'updated_at'  => now(),
                     ]);
             } else {
@@ -189,7 +208,7 @@ class SyncFeaturePackageAfterResponse
                         'total_limit'  => $data['total_limit'],
                         'used_amount'  => 0,
                         'type'         => $data['type'],
-                        'is_enabled'   => true,
+                        'is_enabled'   => $data['is_enabled'],
                         'status'       => true,
                         'created_at'   => now(),
                         'updated_at'   => now(),

@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class FeaturePackage extends Model
 {
+    public $filterable = ['id', 'package_id', 'feature_id', 'is_enabled'];
     public function package()
     {
         return $this->belongsTo(Package::class, 'package_id');

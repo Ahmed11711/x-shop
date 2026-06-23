@@ -29,4 +29,4 @@ Route::prefix('payments')->group(function () {
 
 
 require __DIR__ . '/admin.php';
-// require __DIR__ . '/superAdmin.php';
+require __DIR__ . '/superAdmin.php';

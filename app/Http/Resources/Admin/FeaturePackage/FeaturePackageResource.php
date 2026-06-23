@@ -15,6 +15,7 @@ class FeaturePackageResource extends JsonResource
             'value' => $this->value,
             'lable' => $this->lable,
             'key_feature' => $this->key_feature,
+            'is_enabled' => $this->is_enabled,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];
