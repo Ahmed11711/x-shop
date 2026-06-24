@@ -2,7 +2,7 @@
 
 namespace App\Repositories\User;
 
-use App\Models\Central\User;
+use App\Models\User;
 use App\Repositories\User\UserRepositoryInterface;
 use App\Repositories\BaseRepository\BaseRepository;
 

@@ -14,7 +14,7 @@ class User extends Authenticatable implements JWTSubject
     protected $connection = 'xshop_central'; // Central DB
     protected $table = 'users';
 
-    // protected $fillable = ['name', 'email', 'password', 'role', 'phone'];
+
     protected $guarded = [];
     protected $hidden = ['password', 'remember_token'];
     protected $casts = [

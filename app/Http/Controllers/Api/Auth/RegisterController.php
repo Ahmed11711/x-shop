@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Central\Auth\RegisterRequest;
-use App\Repositories\User\UserRepository;
+use App\Models\Central\User;
 use App\Services\TenantService\CreateErpTenantService;
 
 class RegisterController extends Controller
@@ -12,7 +12,6 @@ class RegisterController extends Controller
 
     public function __construct(
         public CreateErpTenantService $academyService,
-        public UserRepository $userRepository
 
     ) {}
 
@@ -20,7 +19,8 @@ class RegisterController extends Controller
     {
         $data = $request->validated();
 
-        $user = $this->userRepository->create([
+
+        $user = User::create([
             'name'     => $data['name'],
             'email'    => $data['email'] ?? null,
             'phone'    => $data['phone'] ?? null,

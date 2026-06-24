@@ -67,4 +67,8 @@ class User extends TenantModel  implements JWTSubject
 
         ];
     }
+    public function salespersonProfile()
+    {
+        return $this->hasOne(SalespersonProfile::class);
+    }
 }

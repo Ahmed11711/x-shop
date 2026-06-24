@@ -2,6 +2,31 @@
 
 namespace App\Providers;
 
+use App\Repositories\SellingPriceGroup\SellingPriceGroupRepositoryInterface;
+use App\Repositories\SellingPriceGroup\SellingPriceGroupRepository;
+
+use App\Repositories\Warranty\WarrantyRepositoryInterface;
+use App\Repositories\Warranty\WarrantyRepository;
+
+use App\Repositories\Brand\BrandRepositoryInterface;
+use App\Repositories\Brand\BrandRepository;
+
+use App\Repositories\ProductUnit\ProductUnitRepositoryInterface;
+use App\Repositories\ProductUnit\ProductUnitRepository;
+
+use App\Repositories\CategoryProduct\CategoryProductRepositoryInterface;
+use App\Repositories\CategoryProduct\CategoryProductRepository;
+
+
+use App\Repositories\Contact\ContactRepositoryInterface;
+use App\Repositories\Contact\ContactRepository;
+
+use App\Repositories\CustomerGroup\CustomerGroupRepositoryInterface;
+use App\Repositories\CustomerGroup\CustomerGroupRepository;
+
+use App\Repositories\UserRole\UserRoleRepositoryInterface;
+use App\Repositories\UserRole\UserRoleRepository;
+
 use App\Repositories\Branch\BranchRepositoryInterface;
 use App\Repositories\Branch\BranchRepository;
 
@@ -45,6 +70,14 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(PermissionGroupRepositoryInterface::class, PermissionGroupRepository::class);
         $this->app->bind(RolePermissionRepositoryInterface::class, RolePermissionRepository::class);
         $this->app->bind(BranchRepositoryInterface::class, BranchRepository::class);
+        $this->app->bind(UserRoleRepositoryInterface::class, UserRoleRepository::class);
+        $this->app->bind(CustomerGroupRepositoryInterface::class, CustomerGroupRepository::class);
+        $this->app->bind(ContactRepositoryInterface::class, ContactRepository::class);
+        $this->app->bind(CategoryProductRepositoryInterface::class, CategoryProductRepository::class);
+        $this->app->bind(ProductUnitRepositoryInterface::class, ProductUnitRepository::class);
+        $this->app->bind(BrandRepositoryInterface::class, BrandRepository::class);
+        $this->app->bind(WarrantyRepositoryInterface::class, WarrantyRepository::class);
+        $this->app->bind(SellingPriceGroupRepositoryInterface::class, SellingPriceGroupRepository::class);
 }
 
     /**
