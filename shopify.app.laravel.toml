@@ -1,0 +1,19 @@
+# Learn more about configuring your app at https://shopify.dev/docs/apps/tools/cli/configuration
+
+client_id = "674ea5f0c55d36a28b96b8a1dcd35298"
+name = "Laravel"
+application_url = "https://5265-102-40-219-100.ngrok-free.app/"
+embedded = true
+
+[access_scopes]
+# Learn more at https://shopify.dev/docs/apps/tools/cli/configuration#access_scopes
+scopes = "read_product_feeds,write_product_feeds,read_product_listings,write_product_listings,read_products,write_products"
+optional_scopes = [ ]
+use_legacy_install_flow = false
+
+
+[auth]
+redirect_urls = [ "https://5265-102-40-219-100.ngrok-free.app/shopify/callback" ]
+
+[webhooks]
+api_version = "2026-04"

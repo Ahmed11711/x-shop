@@ -35,4 +35,16 @@ return [
         ],
     ],
 
+    'shopify' => [
+        'store_url'    => env('SHOPIFY_STORE_URL'),
+        'access_token' => env('SHOPIFY_ACCESS_TOKEN'),
+    ],
+    'woocommerce' => [
+        'store_url'       => env('WOOCOMMERCE_STORE_URL'),
+        'consumer_key'    => env('WOOCOMMERCE_CONSUMER_KEY'),
+        'consumer_secret' => env('WOOCOMMERCE_CONSUMER_SECRET'),
+        'webhook_secret'  => env('WOOCOMMERCE_WEBHOOK_SECRET'),
+
+    ],
+
 ];
