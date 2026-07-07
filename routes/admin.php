@@ -23,6 +23,8 @@ use App\Http\Controllers\WooCommerceConnectController;
 use App\Http\Controllers\WooCommerceWebhookController;
 use App\Http\Middleware\ResolveTenant;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\Purchase\PurchaseController;
+use App\Http\Controllers\Admin\suppliers\suppliersController;
 
 
 
@@ -45,6 +47,8 @@ Route::prefix('v1/admin')->middleware(ResolveTenant::class)->group(function () {
     Route::apiResource('warranties', WarrantyController::class)->names('warranty');
     Route::apiResource('selling_price_groups', SellingPriceGroupController::class)->names('selling_price_group');
     Route::apiResource('products', ProductController::class)->names('product');
+    Route::apiResource('suppliers', suppliersController::class)->names('suppliers');
+    Route::apiResource('purchases', PurchaseController::class)->names('purchase');
 });
 
 // for Shopify webhooks and insert tenant name as domain to find the tenant and connect to its database

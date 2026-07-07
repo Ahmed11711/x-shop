@@ -2,6 +2,12 @@
 
 namespace App\Providers;
 
+use App\Repositories\Purchase\PurchaseRepositoryInterface;
+use App\Repositories\Purchase\PurchaseRepository;
+
+use App\Repositories\suppliers\suppliersRepositoryInterface;
+use App\Repositories\suppliers\suppliersRepository;
+
 use App\Models\Product;
 use App\Observers\ProductObserver;
 use App\Observers\WooCommerceProductObserver;
@@ -66,9 +72,8 @@ class AppServiceProvider extends ServiceProvider
     /**
      * Register any application services.
      */
-    public function register(): void
-    {
-        //
+    public function register(): void {
+//
         $this->app->bind(UserRepositoryInterface::class, UserRepository::class);
         $this->app->bind(PackageRepositoryInterface::class, PackageRepository::class);
         $this->app->bind(FeaturePackageRepositoryInterface::class, FeaturePackageRepository::class);
@@ -86,7 +91,9 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(WarrantyRepositoryInterface::class, WarrantyRepository::class);
         $this->app->bind(SellingPriceGroupRepositoryInterface::class, SellingPriceGroupRepository::class);
         $this->app->bind(ProductRepositoryInterface::class, ProductRepository::class);
-    }
+        $this->app->bind(suppliersRepositoryInterface::class, suppliersRepository::class);
+        $this->app->bind(PurchaseRepositoryInterface::class, PurchaseRepository::class);
+}
 
     /**
      * Bootstrap any application services.
