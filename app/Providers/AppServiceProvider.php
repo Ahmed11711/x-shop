@@ -2,6 +2,9 @@
 
 namespace App\Providers;
 
+use App\Repositories\PurchaseReturn\PurchaseReturnRepositoryInterface;
+use App\Repositories\PurchaseReturn\PurchaseReturnRepository;
+
 use App\Repositories\Purchase\PurchaseRepositoryInterface;
 use App\Repositories\Purchase\PurchaseRepository;
 
@@ -93,6 +96,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(ProductRepositoryInterface::class, ProductRepository::class);
         $this->app->bind(suppliersRepositoryInterface::class, suppliersRepository::class);
         $this->app->bind(PurchaseRepositoryInterface::class, PurchaseRepository::class);
+        $this->app->bind(PurchaseReturnRepositoryInterface::class, PurchaseReturnRepository::class);
 }
 
     /**

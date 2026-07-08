@@ -23,6 +23,7 @@ use App\Http\Controllers\WooCommerceConnectController;
 use App\Http\Controllers\WooCommerceWebhookController;
 use App\Http\Middleware\ResolveTenant;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\PurchaseReturn\PurchaseReturnController;
 use App\Http\Controllers\Admin\Purchase\PurchaseController;
 use App\Http\Controllers\Admin\suppliers\suppliersController;
 
@@ -49,6 +50,7 @@ Route::prefix('v1/admin')->middleware(ResolveTenant::class)->group(function () {
     Route::apiResource('products', ProductController::class)->names('product');
     Route::apiResource('suppliers', suppliersController::class)->names('suppliers');
     Route::apiResource('purchases', PurchaseController::class)->names('purchase');
+    Route::apiResource('purchase_returns', PurchaseReturnController::class)->names('purchase_return');
 });
 
 // for Shopify webhooks and insert tenant name as domain to find the tenant and connect to its database
