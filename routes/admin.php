@@ -61,4 +61,4 @@ Route::post('/webhooks/woocommerce/{tenant_name}/product-create', [WooCommerceWe
 Route::post('/webhooks/woocommerce/{tenant_name}/product-update', [WooCommerceWebhookController::class, 'handleProductUpdate']);
 Route::post('/webhooks/woocommerce/{tenant_name}/product-delete', [WooCommerceWebhookController::class, 'handleProductDelete']);
 Route::prefix('v1')->group(function () {});
-Route::get('/gg', [WooCommerceConnectController::class, 'connect']);
+Route::get('/connect-woocommerce', [WooCommerceConnectController::class, 'connect']);
